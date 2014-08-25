@@ -15,16 +15,15 @@
 //= require_tree .
 
 $(document).ready(function() {
+  var flashTimer;
+
   $('#still-todo').append('<h2>Todo!</h2><div id="flash"></div><table id="todo-table"></table><hr>');
   $('#done-todo').append('<h2>Completed!</h2></div><table id="done-table"></table>');
 
   $('#create').on("click", function(){
-    $('#flash').css("background-color","blue").empty().append("<p>Todo Created!</p><div class='right' id='flash-close'>X</div>").show();
-    $('#todo-table').append('<tr><td><div id="todo">'+ $('#input').val() +'</div><div class="right" id="todoComplete">✓</div><div class="right" id="todoClose">X</div></td></tr>');
+    flashMessage("blue","Todo Created!");
+    addTodo($('input').val());
     $('#input').val('');
-    setTimeout(function(){
-      $('#flash').empty().hide();
-    }, 5000)
   });
 
   $(document).on("click", "#flash", function(){
@@ -33,23 +32,24 @@ $(document).ready(function() {
 
   $(document).on("click", "#todoClose", function(){
     $(this).parent().parent().remove();
-    $('#flash').css("background-color","red").empty().append("<p>Todo Deleted!</p><div class='right' id='flash-close'>X</div>").show();
-    setTimeout(function(){
-      $('#flash').empty().hide();
-    }, 5000);
-
+    flashMessage("red","Todo Deleted!");
     completeIsEmpty()
   });
 
   $(document).on("click", "#todoComplete", function(){
     var todo = $(this).siblings("#todo").text();
-    $('#flash').css("background-color","green").empty().append("<p>Todo Completed!</p><div class='right' id='flash-close'>X</div>").show();
-    $(this).parent().parent().remove();
-    $('#done-table').append('<tr><td><div id="todoDone">'+ todo +'</div><div class="right" id="todoUndo"><h2>⎌</h2></div><div class="right" id="todoClose">X</div></td></tr>');
+    flashMessage("green","Todo Completed!");
+    $(this).parents("tr").remove();
+    $('#done-table').append('<tr><td><div id="todoDone">'+ todo +'</div> <div class="right"><div id="todoUndo">⎌</div> <div id="todoClose">X</div></div></td></tr>');
     $('#done-todo').show();
-    setTimeout(function(){
-      $('#flash').empty().hide();
-    }, 5000)
+  });
+
+  $(document).on("click", "#todoUndo", function(){
+    var todo = $(this).parents("tr").find("#todoDone").text();
+    $(this).parents("tr").remove();
+    flashMessage("blue","Todo Created!");
+    addTodo(todo);
+    completeIsEmpty()
   });
 
   var completeIsEmpty = function(){
@@ -61,5 +61,16 @@ $(document).ready(function() {
     }
   };
 
+  var flashMessage = function(color,text) {
+    clearTimeout(flashTimer);
+    $('#flash').css("background-color",color).empty().append("<p>" + text + "</p><div class='right' id='flash-close'>X</div>").show();
+    flashTimer = setTimeout(function(){
+      $('#flash').empty().hide();
+    }, 5000);
+  };
+
+  var addTodo = function(todo){
+    $('#todo-table').append('<tr><td><div id="todo">'+ todo +'</div><div class="right" id="todoComplete">✓</div> <div class="right" id="todoClose">X</div></td></tr>');
+  };
 
 });

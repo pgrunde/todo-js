@@ -14,13 +14,14 @@
  *= require_self
  */
 
+
 .wrapper {
     width:50%;
     margin:0 auto;
 }
 
-#todo-table {
-
+#todo, #todoDone {
+    display:inline;
 }
 
 #flash {
@@ -36,14 +37,33 @@
     float:right;
 }
 
+.center {
+    margin:0 auto;
+    width:150px;
+    text-align: center;
+}
+
+.right div {
+    display:inline;
+}
+
 p {
     display:inline;
 }
 
-td {
-    width:250px;
+table, td, tr {
+    width:100%;
+}
+
+tr:nth-child(even) {
+    background-color: #bdbdbd;
+}
+
+tr:nth-child(odd) {
+    background-color: #dbdbdb;
 }
 
 #done-todo {
     display:none;
 }
+
