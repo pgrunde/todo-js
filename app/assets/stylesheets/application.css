@@ -26,4 +26,24 @@
 #flash {
     background-color: #6061ff;
     color:white;
+    text-align: center;
+    border:1px solid black;
+    display:none;
+}
+
+.right {
+    position:relative;
+    float:right;
+}
+
+p {
+    display:inline;
+}
+
+td {
+    width:250px;
+}
+
+#done-todo {
+    display:none;
 }
