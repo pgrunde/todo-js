@@ -15,5 +15,13 @@
 //= require_tree .
 
 $(document).ready(function() {
-  $('body').append("<h1>hello world, I'm from only javascript!</h1>");
+  $('#still-todo').append('<h2>Todo!</h2><div id="flash"></div><table id="todo-table"></table><hr>');
+
+  $('#create').on("click", function(){
+    $('#flash').empty().append("Todo Created!");
+    $('#todo-table').append('<tr><td>'+ $('#input').val() +'</td></tr>');
+    setTimeout(function(){
+      $('#flash').empty();
+    }, 5000)
+  });
 });
